@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const app = express()
 const cors = require('../middleware/cors')
+const dbConnect = require("../db/dbConnect");
+
+dbConnect();
 
 app.use(cors);
 app.use(bodyParser.json())

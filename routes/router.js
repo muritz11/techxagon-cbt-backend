@@ -5,7 +5,7 @@ router.get("/", (request, response, next) => {
   next();
 });
 
-router.use("/send-email", require("./email.route"));
+router.use("/result", require("./result.route"));
 
 // free endpoint
 router.get("/free-endpoint", (request, response) => {
