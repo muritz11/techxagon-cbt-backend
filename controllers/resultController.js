@@ -46,3 +46,35 @@ export const createResults = async (req, res) => {
     });
   }
 };
+
+export const getResults = async (req, res) => {
+  try {
+    const classQuery = req.query.class || req.query.className;
+    const nameQuery = req.query.name;
+
+    // base filter
+    const filter = {};
+
+    if (classQuery) filter["student.class"] = classQuery;
+
+    // search (case-insensitive)
+    if (nameQuery) {
+      filter["student.name"] = { $regex: nameQuery, $options: "i" };
+    }
+
+    const results = await Result.find(filter);
+
+    return res.status(200).json({
+      success: true,
+      message: "Results retrieved successfully",
+      total: results.length,
+      data: results,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};

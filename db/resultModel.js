@@ -1,27 +1,6 @@
 // models/Result.ts
 import mongoose, { Schema } from "mongoose";
 
-// export interface IResult extends Document {
-//   student: {
-//     name: string;
-//     class: string;
-//     paperId: number;
-//     paperTitle: string;
-//   };
-//   date: Date;
-//   score: number;
-//   totalQuestions: number;
-//   questionWeight: number;
-//   selectedQuestions: {
-//     paperId: number;
-//     question: string;
-//     options: string[];
-//     answer: string;
-//     explanation: string;
-//   }[];
-//   selectedAnswers: Record<string, string>;
-// }
-
 const ResultSchema = new Schema(
   {
     student: {
@@ -45,7 +24,7 @@ const ResultSchema = new Schema(
     ],
     selectedAnswers: { type: Map, of: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.Result || mongoose.model("Result", ResultSchema);
