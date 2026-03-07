@@ -62,13 +62,20 @@ export const getResults = async (req, res) => {
       filter["student.name"] = { $regex: nameQuery, $options: "i" };
     }
 
-    const results = await Result.find(filter);
+    const [results, total] = await Promise.allSettled([
+      Result.find(filter),
+      Result.countDocuments(),
+    ]);
+
+    const resultsValue = results.status === "fulfilled" ? results.value : [];
+    const totalValue = total.status === "fulfilled" ? total.value : 0;
 
     return res.status(200).json({
       success: true,
       message: "Results retrieved successfully",
-      total: results.length,
-      data: results,
+      total: resultsValue.length,
+      totalSubmitted: totalValue,
+      data: resultsValue,
     });
   } catch (error) {
     return res.status(500).json({
